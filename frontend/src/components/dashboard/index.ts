@@ -1,4 +1,4 @@
-export { DashboardView } from './DashboardView';
+export { DashboardView } from '../../app/page';
 export { StatsCard } from './StatsCard';
 export { PipelineChart } from './PipelineChart';
 export { RecentActivity } from './RecentActivity';
