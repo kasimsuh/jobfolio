@@ -37,7 +37,7 @@ app.get("/api/health", (req, res) => {
 app.get("/api", (req, res) => {
   res.json({
     success: true,
-    message: "Welcome to CoopTrack API",
+    message: "Welcome to JobFolio API",
     version: "1.0.0",
     endpoints: {
       auth: {

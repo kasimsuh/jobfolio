@@ -25,7 +25,7 @@ export function ApplicationCard({ application, onClick }: ApplicationCardProps) 
           <h4 className="font-medium text-sm">{application.company}</h4>
         </div>
         {application.resumeVersion && (
-          <Badge variant="info">{application.resumeVersion}</Badge>
+          <Badge variant="info">{application.resumeVersion.name}</Badge>
         )}
       </div>
       
