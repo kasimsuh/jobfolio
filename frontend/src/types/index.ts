@@ -11,7 +11,11 @@ export interface Application {
   appliedDate: string | null;
   deadline: string | null;
   notes: string;
-  resumeVersion: string | null;
+  resumeVersion: {
+    _id: string;
+    name: string;
+    versionNumber: string;
+  } | null;
   salary: string;
   source: string;
   url?: string;
@@ -76,7 +80,7 @@ export interface ApplicationFormData {
   source: string;
   url: string;
   notes: string;
-  resumeVersion: string;
+  resumeVersion: string | null;
 }
 
 export interface ResumeFormData {

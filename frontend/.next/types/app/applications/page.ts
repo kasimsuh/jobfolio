@@ -1,4 +1,4 @@
-// File: /Users/suhiyinikasim/Desktop/coop-tracker/frontend/src/app/applications/page.tsx
+// File: /Users/suhiyinikasim/Desktop/jobfolio/frontend/src/app/applications/page.tsx
 import * as entry from '../../../../src/app/applications/page.js'
 import type { ResolvingMetadata, ResolvingViewport } from 'next/dist/lib/metadata/types/metadata-interface.js'
 

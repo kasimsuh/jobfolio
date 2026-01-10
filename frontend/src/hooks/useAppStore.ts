@@ -4,13 +4,15 @@ import { applicationsAPI, resumesAPI } from '@/lib/api';
 import type { Application as APIApplication, ResumeVersion as APIResumeVersion } from '@/lib/api';
 
 // Transform backend data to frontend format
-const transformApplication = (apiApp: APIApplication): Application => ({
-  ...apiApp,
-  id: apiApp._id,
-  resumeVersion: apiApp.resumeVersion?._id || null,
-  createdAt: apiApp.createdAt || new Date().toISOString(),
-  updatedAt: apiApp.updatedAt || new Date().toISOString(),
-});
+const transformApplication = (apiApp: APIApplication): Application => (
+  {
+    ...apiApp,
+    id: apiApp._id,
+    resumeVersion: apiApp.resumeVersion || null,
+    createdAt: apiApp.createdAt || new Date().toISOString(),
+    updatedAt: apiApp.updatedAt || new Date().toISOString(),
+  }
+);
 
 const transformResume = (apiResume: APIResumeVersion): ResumeVersion => ({
   ...apiResume,

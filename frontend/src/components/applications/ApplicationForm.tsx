@@ -22,7 +22,7 @@ const initialFormData: ApplicationFormData = {
   source: '',
   url: '',
   notes: '',
-  resumeVersion: '',
+  resumeVersion: null,
 };
 
 export function ApplicationForm({ application, onSubmit, onCancel }: ApplicationFormProps) {
@@ -41,7 +41,7 @@ export function ApplicationForm({ application, onSubmit, onCancel }: Application
         source: application.source,
         url: application.url || '',
         notes: application.notes,
-        resumeVersion: application.resumeVersion || '',
+        resumeVersion: application.resumeVersion?._id || null,
       });
     }
   }, [application]);
@@ -50,7 +50,9 @@ export function ApplicationForm({ application, onSubmit, onCancel }: Application
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>
   ) => {
     const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
+    // Convert empty string to null for resumeVersion
+    const finalValue = name === 'resumeVersion' && value === '' ? null : value;
+    setFormData((prev) => ({ ...prev, [name]: finalValue }));
   };
   
   const handleSubmit = (e: React.FormEvent) => {
@@ -70,7 +72,7 @@ export function ApplicationForm({ application, onSubmit, onCancel }: Application
   
   const resumeOptions = [
     { value: '', label: 'No resume selected' },
-    ...resumeVersions.map((v) => ({ value: v.id, label: `${v.name} (${v.id})` })),
+    ...resumeVersions.map((v) => ({ value: v.id, label: v.name })),
   ];
   
   return (
@@ -139,7 +141,7 @@ export function ApplicationForm({ application, onSubmit, onCancel }: Application
         <Select
           label="Resume Version"
           name="resumeVersion"
-          value={formData.resumeVersion}
+          value={formData.resumeVersion || ''}
           onChange={handleChange}
           options={resumeOptions}
         />
