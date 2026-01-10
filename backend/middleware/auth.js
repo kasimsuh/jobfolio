@@ -3,6 +3,18 @@ const User = require("../models/User");
 
 // Protect routes - require authentication
 const protect = async (req, res, next) => {
+  // Single-user mode bypass for development
+  if (process.env.SINGLE_USER_MODE === 'true') {
+    req.user = await User.findOne(); // Get first user from database
+    if (!req.user) {
+      return res.status(500).json({
+        success: false,
+        message: 'No user found. Please run seed script first.',
+      });
+    }
+    return next();
+  }
+
   let token;
 
   // Check for token in Authorization header

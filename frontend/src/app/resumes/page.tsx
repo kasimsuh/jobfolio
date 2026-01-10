@@ -29,21 +29,33 @@ export default function ResumesView() {
   const editingResume = editingResumeId ? getResumeById(editingResumeId) : null;
   const viewingResume = viewingResumeId ? getResumeById(viewingResumeId) : null;
 
-  const handleCreate = (data: ResumeFormData) => {
-    addResumeVersion(data);
-    setIsAddingResume(false);
-  };
-
-  const handleUpdate = (data: ResumeFormData) => {
-    if (editingResumeId) {
-      updateResumeVersion(editingResumeId, data);
-      setEditingResume(null);
+  const handleCreate = async (data: ResumeFormData) => {
+    try {
+      await addResumeVersion(data);
+      setIsAddingResume(false);
+    } catch (error) {
+      console.error('Failed to create resume:', error);
     }
   };
 
-  const handleDelete = (id: string) => {
+  const handleUpdate = async (data: ResumeFormData) => {
+    if (editingResumeId) {
+      try {
+        await updateResumeVersion(editingResumeId, data);
+        setEditingResume(null);
+      } catch (error) {
+        console.error('Failed to update resume:', error);
+      }
+    }
+  };
+
+  const handleDelete = async (id: string) => {
     if (confirm("Are you sure you want to delete this resume version?")) {
-      deleteResumeVersion(id);
+      try {
+        await deleteResumeVersion(id);
+      } catch (error) {
+        console.error('Failed to delete resume:', error);
+      }
     }
   };
 
