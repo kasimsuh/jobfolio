@@ -43,32 +43,44 @@ export default function ApplicationsView() {
     })),
   ];
 
-  const handleAddSubmit = (data: ApplicationFormData) => {
-    addApplication({
-      ...data,
-      appliedDate:
-        data.status !== "saved" ? new Date().toISOString().split("T")[0] : null,
-      deadline: data.deadline || null,
-      resumeVersion: data.resumeVersion || null,
-    });
-  };
-
-  const handleEditSubmit = (data: ApplicationFormData) => {
-    if (editingApplicationId) {
-      updateApplication(editingApplicationId, {
+  const handleAddSubmit = async (data: ApplicationFormData) => {
+    try {
+      await addApplication({
         ...data,
+        appliedDate:
+          data.status !== "saved" ? new Date().toISOString().split("T")[0] : null,
         deadline: data.deadline || null,
         resumeVersion: data.resumeVersion || null,
       });
+    } catch (error) {
+      console.error('Failed to add application:', error);
     }
   };
 
-  const handleDelete = () => {
+  const handleEditSubmit = async (data: ApplicationFormData) => {
+    if (editingApplicationId) {
+      try {
+        await updateApplication(editingApplicationId, {
+          ...data,
+          deadline: data.deadline || null,
+          resumeVersion: data.resumeVersion || null,
+        });
+      } catch (error) {
+        console.error('Failed to update application:', error);
+      }
+    }
+  };
+
+  const handleDelete = async () => {
     if (
       selectedApplicationId &&
       confirm("Are you sure you want to delete this application?")
     ) {
-      deleteApplication(selectedApplicationId);
+      try {
+        await deleteApplication(selectedApplicationId);
+      } catch (error) {
+        console.error('Failed to delete application:', error);
+      }
     }
   };
 
