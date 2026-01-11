@@ -40,7 +40,12 @@ export default function RootLayout({
 
   // Redirect to login if not authenticated
   useEffect(() => {
-    if (!isAuthLoading && !isAuthenticated && pathname !== "/login") {
+    if (
+      !isAuthLoading &&
+      !isAuthenticated &&
+      pathname !== "/login" &&
+      pathname !== "/register"
+    ) {
       router.push("/login");
     }
   }, [isAuthenticated, isAuthLoading, pathname, router]);
