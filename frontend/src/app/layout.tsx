@@ -1,7 +1,7 @@
-'use client';
+"use client";
 
-import { useEffect } from 'react';
-import { usePathname, useRouter } from 'next/navigation';
+import { useEffect } from "react";
+import { usePathname, useRouter } from "next/navigation";
 import "./globals.css";
 import { NavBar } from "../components/layout/NavBar";
 import { ErrorBanner } from "@/components/ErrorBanner";
@@ -19,7 +19,11 @@ export default function RootLayout({
   const isLoadingApps = useAppStore((state) => state.isLoadingApplications);
   const isLoadingResumes = useAppStore((state) => state.isLoadingResumes);
 
-  const { isAuthenticated, isLoading: isAuthLoading, checkAuth } = useAuthStore();
+  const {
+    isAuthenticated,
+    isLoading: isAuthLoading,
+    checkAuth,
+  } = useAuthStore();
 
   // Check authentication on mount
   useEffect(() => {
@@ -36,13 +40,23 @@ export default function RootLayout({
 
   // Redirect to login if not authenticated
   useEffect(() => {
-    if (!isAuthLoading && !isAuthenticated && pathname !== '/login') {
-      router.push('/login');
+    if (
+      !isAuthLoading &&
+      !isAuthenticated &&
+      pathname !== "/login" &&
+      pathname !== "/register"
+    ) {
+      router.push("/login");
     }
   }, [isAuthenticated, isAuthLoading, pathname, router]);
 
   // Show loading spinner while checking auth or loading data
-  if (isAuthLoading || (isAuthenticated && pathname !== '/login' && (isLoadingApps || isLoadingResumes))) {
+  if (
+    isAuthLoading ||
+    (isAuthenticated &&
+      pathname !== "/login" &&
+      (isLoadingApps || isLoadingResumes))
+  ) {
     return (
       <html lang="en">
         <body>
@@ -58,7 +72,7 @@ export default function RootLayout({
   }
 
   // Don't render protected content if not authenticated
-  if (!isAuthenticated && pathname !== '/login') {
+  if (!isAuthenticated && pathname !== "/login" && pathname !== "/register") {
     return (
       <html lang="en">
         <body>
@@ -75,9 +89,13 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className="">
-        {isAuthenticated && pathname !== '/login' && <NavBar />}
+        {isAuthenticated && pathname !== "/login" && <NavBar />}
         {isAuthenticated && <ErrorBanner />}
-        <main className={isAuthenticated && pathname !== '/login' ? "px-6 py-6" : ""}>
+        <main
+          className={
+            isAuthenticated && pathname !== "/login" ? "px-6 py-6" : ""
+          }
+        >
           {children}
         </main>
       </body>

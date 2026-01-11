@@ -1,37 +1,43 @@
-'use client';
+"use client";
 
-import React, { useState, useEffect } from 'react';
-import { useRouter } from 'next/navigation';
-import { useAuthStore } from '@/hooks/useAuthStore';
-import { Button, Input, Card } from '@/components/ui';
-import { Briefcase } from 'lucide-react';
+import React, { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
+import Link from "next/link";
+import { useAuthStore } from "@/hooks/useAuthStore";
+import { Button, Input, Card } from "@/components/ui";
+import { Briefcase } from "lucide-react";
 
 export default function LoginPage() {
   const router = useRouter();
-  const { login, isLoading, error, isAuthenticated, clearError } = useAuthStore();
+  const { login, isLoading, error, isAuthenticated, clearError } =
+    useAuthStore();
 
   const [credentials, setCredentials] = useState({
-    email: '',
-    password: '',
+    email: "",
+    password: "",
   });
 
   // Redirect if already authenticated
   useEffect(() => {
     if (isAuthenticated) {
-      router.push('/');
+      router.push("/");
     }
   }, [isAuthenticated, router]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    console.log("1. Form submitted");
+    console.log("2. Credentials:", credentials);
     clearError();
 
     try {
+      console.log("3. Calling login...");
       await login(credentials);
-      router.push('/');
+      console.log("4. Login successful");
+      router.push("/");
     } catch (err) {
       // Error is handled by the store
-      console.error('Login error:', err);
+      console.error("5. Login error:", err);
     }
   };
 
@@ -44,8 +50,8 @@ export default function LoginPage() {
 
   const fillDemoCredentials = () => {
     setCredentials({
-      email: 'default@cooptracker.com',
-      password: 'password123',
+      email: "default@cooptracker.com",
+      password: "password123",
     });
   };
 
@@ -59,7 +65,9 @@ export default function LoginPage() {
             </div>
           </div>
           <h1 className="text-3xl font-bold text-gray-900">JobFolio</h1>
-          <p className="text-gray-600 mt-2">Sign in to manage your job applications</p>
+          <p className="text-gray-600 mt-2">
+            Sign in to manage your job applications
+          </p>
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-4">
@@ -70,7 +78,10 @@ export default function LoginPage() {
           )}
 
           <div>
-            <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
+            <label
+              htmlFor="email"
+              className="block text-sm font-medium text-gray-700 mb-1"
+            >
               Email
             </label>
             <Input
@@ -86,7 +97,10 @@ export default function LoginPage() {
           </div>
 
           <div>
-            <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-1">
+            <label
+              htmlFor="password"
+              className="block text-sm font-medium text-gray-700 mb-1"
+            >
               Password
             </label>
             <Input
@@ -101,12 +115,8 @@ export default function LoginPage() {
             />
           </div>
 
-          <Button
-            type="submit"
-            className="w-full"
-            disabled={isLoading}
-          >
-            {isLoading ? 'Signing in...' : 'Sign In'}
+          <Button type="submit" className="w-full" disabled={isLoading}>
+            {isLoading ? "Signing in..." : "Sign In"}
           </Button>
 
           <div className="relative my-6">
@@ -120,7 +130,7 @@ export default function LoginPage() {
 
           <Button
             type="button"
-            variant="outline"
+            variant="secondary"
             className="w-full"
             onClick={fillDemoCredentials}
             disabled={isLoading}
@@ -131,6 +141,18 @@ export default function LoginPage() {
           <p className="text-center text-sm text-gray-600 mt-4">
             Demo credentials will be auto-filled
           </p>
+
+          <div className="text-center mt-6">
+            <p className="text-sm text-gray-600">
+              Don't have an account?{" "}
+              <Link
+                href="/register"
+                className="text-blue-600 hover:text-blue-700 font-medium"
+              >
+                Create one
+              </Link>
+            </p>
+          </div>
         </form>
       </Card>
     </div>

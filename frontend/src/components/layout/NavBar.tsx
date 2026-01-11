@@ -1,6 +1,12 @@
 "use client";
 import React from "react";
-import { Briefcase, BarChart3, FileText, GitCompare, LogOut } from "lucide-react";
+import {
+  Briefcase,
+  BarChart3,
+  FileText,
+  GitCompare,
+  LogOut,
+} from "lucide-react";
 import { cn } from "@/lib/utils";
 import { usePathname, useRouter } from "next/navigation";
 import Link from "next/link";
@@ -21,7 +27,7 @@ export function NavBar() {
 
   const handleLogout = () => {
     logout();
-    router.push('/login');
+    router.push("/login");
   };
 
   return (

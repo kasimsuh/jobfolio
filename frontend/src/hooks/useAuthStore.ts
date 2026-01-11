@@ -23,11 +23,15 @@ export const useAuthStore = create<AuthState>((set) => ({
   isAuthenticated: false,
 
   login: async (credentials: LoginData) => {
+    console.log('[Auth Store] Login called with:', credentials);
     set({ isLoading: true, error: null });
     try {
+      console.log('[Auth Store] Calling authAPI.login...');
       const user = await authAPI.login(credentials);
+      console.log('[Auth Store] Login response:', user);
       set({ user, isAuthenticated: true, isLoading: false });
     } catch (error) {
+      console.error('[Auth Store] Login error:', error);
       set({
         error: error instanceof Error ? error.message : 'Login failed',
         isLoading: false,
@@ -53,9 +57,11 @@ export const useAuthStore = create<AuthState>((set) => ({
   },
 
   logout: () => {
+    console.log('[Auth Store] Logging out...');
     authAPI.logout();
     removeToken();
     set({ user: null, isAuthenticated: false, error: null });
+    console.log('[Auth Store] Logged out, isAuthenticated set to false');
   },
 
   checkAuth: async () => {
